@@ -1,0 +1,15 @@
+ARG OPEN_JDK_IMAGE_TAG
+FROM openjdk:${OPEN_JDK_IMAGE_TAG:-14-jdk-alpine}
+
+ARG PROJECT_NAME
+ARG JVM_MAX_MEMORY
+ARG APACHE_ACCESS_LOG
+
+ENV PROJECT_NAME ${PROJECT_NAME:-ApacheAccessLogParser}
+ENV JVM_MAX_MEMORY ${JVM_MAX_MEMORY:-Xmx512m}
+ENV APACHE_ACCESS_LOG ${APACHE_ACCESS_LOG:-src/main/resources/access.txt}
+
+ADD target/scala-**/*.jar ${PROJECT_NAME}.jar
+ADD ${APACHE_ACCESS_LOG} access.log
+
+ENTRYPOINT ["sh", "-c", "java -${JVM_MAX_MEMORY} $* -jar /${PROJECT_NAME}.jar access.log"]
