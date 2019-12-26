@@ -1,16 +1,16 @@
 package fr.amraneze.logstream.spark
 
+import fr.amraneze.logstream.config.JobConfig
 import org.apache.spark.sql.SparkSession
-import fr.amraneze.logstream.config.AppConfig.appConfig
 
 object SparkSessionWrapper {
 
-	lazy val sparkSession: SparkSession = {
-		SparkSession
-			.builder()
-			.master(appConfig.spark.master)
-			.appName(appConfig.spark.appName)
-			.getOrCreate()
-	}
+  lazy val sparkSession: SparkSession = {
+    SparkSession
+      .builder()
+      .master(JobConfig.sparkConfig.master)
+      .appName(JobConfig.sparkConfig.appName)
+      .getOrCreate()
+  }
 
 }

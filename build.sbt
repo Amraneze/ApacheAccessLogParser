@@ -1,5 +1,9 @@
+enablePlugins(JavaAppPackaging, DockerPlugin)
+
 name := "ApacheAccessLogParser"
 version := "0.1"
+
+mainClass in Compile := Some("fr.amraneze.logstream.App")
 
 /*
   Spark doesn’t work with Scala 2.13
@@ -19,34 +23,5 @@ libraryDependencies ++= Seq(
   "org.scalatest"         %% "scalatest"          % "3.0.1" % "test"
 )
 
-assemblyMergeStrategy in assembly := {
-  case PathList("META-INF",
-                xs @ _*) =>
-    xs map { _.toLowerCase } match {
-      case "manifest.mf" :: Nil |
-          "index.list" :: Nil |
-          "dependencies" :: Nil =>
-        MergeStrategy.discard
-      case ps @ _ :: _
-          if ps.last.endsWith(
-            ".sf") || ps.last
-            .endsWith(
-              ".dsa") =>
-        MergeStrategy.discard
-      case "plexus" :: _ =>
-        MergeStrategy.discard
-      case "services" :: _ =>
-        MergeStrategy.filterDistinctLines
-      case "spring.schemas" :: Nil |
-          "spring.handlers" :: Nil =>
-        MergeStrategy.filterDistinctLines
-      case _ =>
-        MergeStrategy.first
-    }
-  case "application.conf" =>
-    MergeStrategy.concat
-  case "reference.conf" =>
-    MergeStrategy.concat
-  case _ =>
-    MergeStrategy.first
-}
+// Docker config
+maintainer := "Ait Zeouay Amrane <a.zeouayamran@gmail.com>"
