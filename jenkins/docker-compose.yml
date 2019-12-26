@@ -1,0 +1,43 @@
+version: '3.3'
+
+services:
+  jenkins:
+    container_name: jenkins
+    user: jenkins
+    build: .
+    image: localhost:5000/jenkins:latest
+    healthcheck:
+      test: ["CMD-SHELL", "/var/jenkins/healthcheck.sh '/run/secrets/metric-key'"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: on-failure
+    volumes:
+      # we will expose the actual folder which will contains jenkins_home
+      - ./data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      JENKINS_HOST_HOME: "./data"
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+    ports:
+      - "8080:8080"
+    secrets:
+      - jenkins-user
+      - jenkins-pwd
+      - metric-key
+    networks:
+      - jenkins_subnet
+
+secrets:
+  jenkins-user:
+    external: true
+  jenkins-pwd:
+    external: true
+  metric-key:
+    external: true
+
+# To fix issue of "user specified IP address is supported only when connecting to networks with user configured subnets"
+networks:
+  jenkins_subnet:
+    external:
+      name: jenkins_subnet
