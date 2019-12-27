@@ -12,7 +12,7 @@ RUN chown root /var/jenkins
 
 WORKDIR /var/jenkins
 
-ADD *.groovy ./
+ADD scripts/*.groovy ./
 ADD plugins.txt ./
 ADD healthcheck.sh ./
 
