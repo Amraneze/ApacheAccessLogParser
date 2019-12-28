@@ -27,6 +27,4 @@ def gitCredentialsGlobal = new UsernamePasswordCredentialsImpl(
 SystemCredentialsProvider.getInstance().getStore().addCredentials(Domain.global(), gitCredentialsGlobal)
 
 // We should delete GIT credentials from Docker secrets
-def stdout = new StringWriter()
-def stderr = new StringWriter()
-['/bin/sh', '-c', "docker secret rm git-pwd git-username"].execute().waitForProcessOutput(stdout, stderr)
+['/bin/sh', '-c', "docker secret rm git-pwd git-username"].execute()
