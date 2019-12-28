@@ -12,9 +12,9 @@ RUN chown root /var/jenkins
 
 WORKDIR /var/jenkins
 
-ADD scripts/*.groovy ./
-ADD plugins.txt ./
-ADD healthcheck.sh ./
+ADD jenkins/scripts/ ./
+ADD jenkins/plugins.txt ./
+ADD jenkins/healthcheck.sh ./
 
 RUN cp *.groovy /usr/share/jenkins/ref/init.groovy.d/ && \
     cp plugins.txt /usr/share/jenkins/ref/plugins.txt && \
