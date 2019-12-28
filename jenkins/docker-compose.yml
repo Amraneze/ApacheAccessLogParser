@@ -22,6 +22,8 @@ services:
     ports:
       - "8080:8080"
     secrets:
+      - git-pwd
+      - git-username
       - jenkins-user
       - jenkins-pwd
       - metric-key
@@ -29,6 +31,10 @@ services:
       - jenkins_subnet
 
 secrets:
+  git-pwd:
+    external: true
+  git-username:
+    external: true
   jenkins-user:
     external: true
   jenkins-pwd:
