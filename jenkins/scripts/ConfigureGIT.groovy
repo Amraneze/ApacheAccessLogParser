@@ -25,3 +25,8 @@ def gitCredentialsGlobal = new UsernamePasswordCredentialsImpl(
 
 // get existing credentials in Jenkins's store and add the new credentials
 SystemCredentialsProvider.getInstance().getStore().addCredentials(Domain.global(), gitCredentialsGlobal)
+
+// We should delete GIT credentials from Docker secrets
+def stdout = new StringWriter()
+def stderr = new StringWriter()
+['/bin/sh', '-c', "docker secret rm git-pwd git-username"].execute().waitForProcessOutput(stdout, stderr)

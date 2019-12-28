@@ -72,4 +72,3 @@ docker network create -d overlay jenkins_subnet
 docker stack deploy -c jenkins/docker-compose.yml jenkins
 
 # We should remove all docker secrets after the deployment except for metrics API (for production env)
-docker secret rm git-pwd git-username
