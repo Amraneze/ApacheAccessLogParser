@@ -1,4 +1,6 @@
-FROM jenkins/jenkins:lts
+FROM docker:stable AS dockerImage
+
+FROM jenkins/jenkins:lts-alpine
 
 LABEL name=jenkins version=dev \
       maintainer="Amrane Ait Zeouay <a.zeouayamran@gmail.com>"
@@ -16,17 +18,14 @@ ADD jenkins/scripts/ ./
 ADD jenkins/plugins.txt ./
 ADD jenkins/healthcheck.sh ./
 
+# Add the docker binary, so the container can run docker for jenkins pipeline
+COPY --from=dockerImage /usr/local/bin/docker /usr/local/bin/docker
+
 RUN cp *.groovy /usr/share/jenkins/ref/init.groovy.d/ && \
     cp plugins.txt /usr/share/jenkins/ref/plugins.txt && \
     /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 
-# Install Docker from official repo
-RUN apt-get update -qq && \
-    apt-get install -qqy apt-transport-https ca-certificates curl gnupg2 software-properties-common && \
-    curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - && \
-    apt-key fingerprint 0EBFCD88 && \
-    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" && \
-    apt-get update -qq && \
-    apt-get install -qqy docker-ce && \
-    usermod -aG docker jenkins && \
-    chown -R jenkins:jenkins $JENKINS_HOME/
+RUN chown -R jenkins:jenkins $JENKINS_HOME
+
+# Remove unecessary files in tmps
+RUN rm -rf /tmp/* /var/tmp/*

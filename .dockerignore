@@ -1,0 +1,32 @@
+# .dockerignore should be in the same folder as Dockerfile, check the https://github.com/docker/cli/issues/1308
+
+### ignore git folder and gitignore ###
+.git
+.gitignore
+
+### ignore the project src ###
+project
+src
+.scalafmt.conf
+build.sbt
+Jenkinsfile
+README.md
+run.bat
+run.sh
+
+### ignore dockerfile of Jenkins ###
+jenkins/Dockerfile
+jenkins/data
+jenkins/docker-compose.yml
+
+### Intellij ###
+.idea
+
+### SBT ###
+dist
+target
+lib_managed
+src_managed
+.history
+.cache
+.lib
