@@ -1,14 +1,14 @@
 package fr.amraneze.logstream
 
-import fr.amraneze.logstream.spark.SparkSessionWrapper.sparkSession
-import fr.amraneze.logstream.config.JobConfig
+import fr.amraneze.logstream.spark.SparkWrapper.sparkSession
+import fr.amraneze.logstream.config.Config
 import fr.amraneze.logstream.util.ApacheLog
 import fr.amraneze.logstream.util.LogUtil.parseLog
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 object App {
 
-  import JobConfig._
+  import Config._
 
   def main(args: Array[String]): Unit = {
 

@@ -18,6 +18,10 @@ libraryDependencies ++= Seq(
   "com.github.pureconfig" %% "pureconfig"         % "0.12.1",
   "org.apache.spark"      %% "spark-core"         % s"$sparkVersion",
   "org.apache.spark"      %% "spark-sql"          % s"$sparkVersion",
+  "org.apache.spark"      %% "spark-streaming"    % s"$sparkVersion",
+  "com.typesafe.akka"     %% "akka-http"          % "10.1.11",
+  "com.typesafe.akka"     %% "akka-stream"        % "2.6.1",
+  "com.typesafe.akka"     %% "akka-http-spray-json" % "10.1.11",
   "com.holdenkarau"       %% "spark-testing-base" % s"${sparkVersion}_$sparkTestingBaseVersion" % "test",
   "org.scalatest"         %% "scalatest"          % "3.0.1" % "test"
 )
