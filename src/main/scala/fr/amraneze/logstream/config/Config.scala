@@ -19,7 +19,7 @@ object Config {
 
 case class SparkConfig(master: String, appName: String)
 
-case class SparkStreaming(master: String, host: String, batchInterval: Int)
+case class SparkStreaming(master: String, appName: String, host: String, batchInterval: Int)
 
 case class Config(spark: SparkConfig, jobConfig: JobConfig)
 
