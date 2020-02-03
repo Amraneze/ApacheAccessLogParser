@@ -1,6 +1,6 @@
 package fr.amraneze.logstream
 
-import fr.amraneze.logstream.util.ApacheLog
+import fr.amraneze.logstream.util.{ApacheLog, Graph, GraphChildren, GraphValue}
 
 object DummyData {
 
@@ -13,6 +13,13 @@ object DummyData {
 		  |77.75.77.72 - - [13/Feb/2016:12:46:55 +0100] "GET /robots.txt HTTP/1.1" 200 304 "-" "Mozilla/5.0 (compatible; SeznamBot/3.2; +http://fulltext.sblog.cz/)" "-"
 		  |205.167.170.15 - - [10/Feb/2016:17:43:44 +0100] "GET /images/phocagallery/almhuette/thumbs/phoca_thumb_m_zimmer.jpg HTTP/1.1" 200 4320 "-" "Go-http-client/1.1" "-"
 		""".stripMargin.split("\n").toSeq.map(_.trim).filter(_ != "")
+
+  val graphLogs: Map[String, Graph] = Map(
+    "77.179.66.156" -> Graph("77.179.66.156", Array(GraphChildren("77.179.66.156", Array(GraphValue("77.179.66.156", "/test1"))))),
+    "207.46.13.150" -> Graph("207.46.13.150", Array(GraphChildren("207.46.13.150", Array(GraphValue("207.46.13.150", "/index.php?option=com_content&view=frontpage"))))),
+    "88.198.140.4" -> Graph("88.198.140.4", Array(GraphChildren("88.198.140.4", Array(GraphValue("88.198.140.4", "/"))))),
+    "188.169.186.251" -> Graph("188.169.186.251", Array(GraphChildren("188.169.186.251", Array(GraphValue("188.169.186.251", "/administrator/index.php"))))),
+  )
 
   val expectedLogsFormat: Map[String, ApacheLog] = Map(
     "77.179.66.156" -> ApacheLog(

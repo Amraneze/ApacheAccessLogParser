@@ -1,8 +1,8 @@
 package fr.amraneze.logstream.streaming
 
-import fr.amraneze.logstream.DummyData.{expectedLogsFormatList, normalLogs}
+import fr.amraneze.logstream.DummyData.{expectedLogsFormatList, graphLogs, normalLogs}
 import fr.amraneze.logstream.config.Config.sparkStreamingConfig
-import fr.amraneze.logstream.util.ApacheLog
+import fr.amraneze.logstream.util.{ApacheLog, Graph, GraphChildren, GraphValue}
 import fr.amraneze.logstream.util.LogUtil.parseLog
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.SparkUtils.ClockWrapper
@@ -102,5 +102,51 @@ class SparkStreamingSpec extends FlatSpec with Matchers with BeforeAndAfterAll w
     Then("The result needs to be the same as last slide")
     clockWrapper.advance(ssc, Seconds(sparkStreamingConfig.batchInterval))
     results.last should equal(expectedLogsFormatList.slice(2, 4))
+  }
+
+  it should "parse logs and display it for graph" in {
+    Given("Spark streaming context is initialized")
+    val logsRDD: mutable.Queue[RDD[String]] = mutable.Queue[RDD[String]]()
+
+    type GraphLogs = Array[Graph]
+
+    var results: ListBuffer[GraphLogs] = ListBuffer.empty[GraphLogs]
+
+    def collectLogs(logs: InputDStream[String])(callback: GraphLogs => ListBuffer[GraphLogs]): Unit =
+      logs
+        .foreachRDD { rdd =>
+          callback(
+            rdd
+              .map(parseLog)
+              .filter(_.isRight)
+              .map {
+                case Right(x) => x
+              }
+              .map(log => (log.ip, log.uri))
+              .groupBy(_._1)
+              .mapValues(_.map(tuple => GraphValue(tuple._1, tuple._2)))
+              .map(n => GraphChildren(n._1, n._2.toArray))
+              .collect()
+              .asInstanceOf[GraphLogs])
+        }
+
+    collectLogs(ssc.queueStream(logsRDD)) { logs: GraphLogs =>
+      results += logs
+    }
+
+    ssc.start()
+
+    When("first set of two logs are queued")
+    logsRDD += sc.makeRDD(normalLogs.slice(0, 2))
+
+    Then("The first two logs parsed after first slide")
+    clockWrapper.advance(ssc, Seconds(sparkStreamingConfig.batchInterval))
+    batchListener.waitUntilBatchesCompleted(1, timeout)
+
+    results.last.sortBy(_.name).foreach(result => {
+        val expectedGraphLog = graphLogs.get(result.name)
+        expectedGraphLog.isDefined shouldBe true
+        result.children should contain theSameElementsAs expectedGraphLog.get.children
+    })
   }
 }

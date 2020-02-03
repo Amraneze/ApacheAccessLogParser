@@ -8,10 +8,10 @@ import org.apache.spark.streaming.StreamingContext
 object SparkWrapper {
 
   lazy val sparkSession: SparkSession = SparkSession
-      .builder()
-      .master(sparkConfig.master)
-      .appName(sparkConfig.appName)
-      .getOrCreate()
+    .builder()
+    .master(sparkConfig.master)
+    .appName(sparkConfig.appName)
+    .getOrCreate()
 
   lazy val sparkStreaming: StreamingContext =
     StreamingContext.getActiveOrCreate(new SparkStreamingJob(sparkSession).createStreamingContext)

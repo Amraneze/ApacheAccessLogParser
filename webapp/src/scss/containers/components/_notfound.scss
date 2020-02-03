@@ -1,0 +1,11 @@
+.App {
+  .App__info__wrapper {
+    &.not__found {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-content: center;
+    }
+  }
+}

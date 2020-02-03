@@ -1,0 +1,25 @@
+html * {
+    scrollbar-color: gray transparent;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar-track {
+        background-color: #e2e2e2;
+    }
+
+    &::-webkit-scrollbar {
+        width: 6px;
+        background-color: #F5F5F5;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #aaa;
+        border-radius: 6px;
+        transition: background-color .2s linear, width .2s ease-in-out;
+        -webkit-transition: background-color .2s linear, width .2s ease-in-out;
+        width: 6px;
+    }
+}
+
+.scrollbar {
+    height: 100vh;
+}

@@ -20,6 +20,7 @@ libraryDependencies ++= Seq(
   "org.apache.spark"      %% "spark-sql"          % s"$sparkVersion",
   "org.apache.spark"      %% "spark-streaming"    % s"$sparkVersion",
   "com.typesafe.akka"     %% "akka-http"          % "10.1.11",
+  "ch.megard"             %% "akka-http-cors"     % "0.4.2",
   "com.typesafe.akka"     %% "akka-stream"        % "2.6.1",
   "com.typesafe.akka"     %% "akka-http-spray-json" % "10.1.11",
   "com.holdenkarau"       %% "spark-testing-base" % s"${sparkVersion}_$sparkTestingBaseVersion" % "test",

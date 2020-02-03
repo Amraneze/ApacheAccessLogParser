@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    environment {
+        CI = 'true'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'yarn install'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'yarn test'
+            }
+        }
+        stage('Deliver') {
+            steps {
+                sh 'yarn build'
+                sh 'cp -a build/. /etc/nginx/sites-enabled/naixit-web/'
+            }
+        }
+    }
+}

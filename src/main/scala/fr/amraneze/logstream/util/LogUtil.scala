@@ -18,6 +18,10 @@ case class ApacheLog(
     userAgent: String,
     forward: String = "")
 
+case class Graph(name: String, children: Array[GraphChildren])
+case class GraphChildren(name: String, children: Array[GraphValue])
+case class GraphValue(name: String, value: String)
+
 object LogUtil {
 
   // For more detailed explanation check this website https://regexr.com/4pdv6

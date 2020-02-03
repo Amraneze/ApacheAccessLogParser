@@ -1,0 +1,20 @@
+@import 'generic/box-sizing';
+@import 'generic/normalize';
+
+@import 'base/variables';
+@import 'base/font';
+@import 'base/scaffolding';
+@import 'base/typography';
+@import 'base/flex';
+@import 'base/scrollbar';
+
+@import 'containers/components/common';
+
+// Common screens
+@import 'containers/components/notfound';
+
+// Layout screens
+@import 'containers/layout/sidebar';
+@import 'containers/layout/layout';
+
+@import '~react-perfect-scrollbar/dist/css/styles.css';
